@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Articles</title>
+</head>
+<body>
+    <h2>Articles</h2>
+    <a href="{% url 'add_article' %}">Add New Article</a>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for article in articles %}
+                <tr>
+                    <td>
+                        <a href="{% url 'article_detail' article.id %}">{{ article.title }}</a>
+                    </td>
+                    <td>{{ article.author.username }}</td>
+                    <td>
+                        <a href="{% url 'edit_article' article.id %}">Edit</a>
+                        <a href="{% url 'remove_article' article.id %}">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        const notificationSocket = new WebSocket(
+            'ws://' + window.location.host + '/ws/notifications/'
+        );
+
+        notificationSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            alert(data.message);
+        };
+
+        notificationSocket.onclose = function(e) {
+            console.error('Notification socket closed unexpectedly');
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Game</title>
+</head>
+<body>
+    <h2>Add Game</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Game</button>
+    </form>
+    <a href="{% url 'game_list' %}">Back to Games</a>
+</body>
+</html>
